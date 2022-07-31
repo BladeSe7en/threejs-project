@@ -5,8 +5,8 @@
 // Physics brings in the Physics effect in the environment
 // useBox, usePlane, useSphere and many more from cannon are used to import the models used in this project
 // niceColors are used for beautification of objects
-import * as THREE from 'three'
-import { Box, Plane } from "@react-three/drei";
+// import * as THREE from 'three'
+// import { Box, Plane } from "@react-three/drei";
 import { Canvas } from "react-three-fiber";
 import { Physics} from "@react-three/cannon";
 import niceColors from 'nice-color-palettes';
