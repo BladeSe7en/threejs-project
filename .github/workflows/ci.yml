@@ -3,6 +3,8 @@
 
 name: Node.js CI
 
+env: 
+  TEST_KEY: ${{ secrets.TEST_KEY }}
 
 on:
   push:
@@ -12,14 +14,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -27,6 +26,21 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: Install dependencies
+      # Using npm ci is generally faster than running npm install
+    - run: |
+      cd threejs-project
+      npm ci
+    - name: Build the app
+      run: |
+        cd threejs-project
+        npm run build
+    - name: Run component tests
+      run |
+      cd threejs-project
+      npm run test
+    - name: Start the app
+      run: |
+      cd threejs-project
+      npm start &
+      npm wait-on --timeout 60000
